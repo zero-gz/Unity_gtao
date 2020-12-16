@@ -67,7 +67,6 @@ inline half3 MultiBounce(half AO, half3 Albedo)
 }
 
 
-//---//---//----//----//-------//----//----//----//-----//----//-----//----//----BilateralBlur//---//---//----//----//-------//----//----//----//-----//----//-----//----//----
 inline void FetchAoAndDepth(float2 uv, inout float ao, inout float depth) {
 	float2 aod = tex2Dlod(_GTAO_Texture, float4(uv, 0, 0)).rga;
 	ao = aod.r;
@@ -123,7 +122,6 @@ inline float2 BilateralBlur(float2 uv0, float2 deltaUV)
 }
 
 
-//---//---//----//----//-------//----//----//----//-----//----//-----//----//----GTAO//---//---//----//----//-------//----//----//----//-----//----//-----//----//----
 inline half ComputeDistanceFade(const half distance)
 {
 	return saturate(max(0, distance - _AO_FadeParams.x) * _AO_FadeParams.y);

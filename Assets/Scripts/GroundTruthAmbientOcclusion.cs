@@ -151,7 +151,6 @@ public class GroundTruthAmbientOcclusion : MonoBehaviour {
     private static int _CurrRT_ID = Shader.PropertyToID("_CurrRT");
     private static int _Combien_AO_RT_ID = Shader.PropertyToID("_Combien_AO_RT");
 
-/* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* *//* */
     void Awake()
     {
         RenderCamera = gameObject.GetComponent<Camera>();
@@ -211,12 +210,11 @@ public class GroundTruthAmbientOcclusion : MonoBehaviour {
     }
 
 
-
-
-
     ////////////////////////////////////////////////////////////////SSAO Function////////////////////////////////////////////////////////////////
     private void UpdateVariable_SSAO()
     {
+        if (GTAOMaterial == null)
+            return;
         //----------------------------------------------------------------------------------
         worldToCameraMatrix = RenderCamera.worldToCameraMatrix;
         GTAOMaterial.SetMatrix(_WorldToCameraMatrix_ID, worldToCameraMatrix);
