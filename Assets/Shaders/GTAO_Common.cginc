@@ -213,11 +213,12 @@ half4 GTAO(half2 uv, int NumCircle, int NumSlice, inout half Depth)
 			dsdt = half2(dot(ds, ds), dot(dt, dt));
 			dsdtLength = rsqrt(dsdt);
 
-			falloff = saturate(dsdt.xy * (2 / (radius*radius)));
+			falloff = saturate(dsdt.xy / (radius*radius));
 
 			H = half2(dot(ds, viewDir), dot(dt, viewDir)) * dsdtLength;
             h.xy = (H.xy > h.xy) ? lerp(H, h, falloff) : h.xy;
-
+            
+            //h.xy = (H.xy > h.xy) ? H.xy : h.xy;
         }
 
 		planeNormal = normalize(cross(sliceDir, viewDir));
