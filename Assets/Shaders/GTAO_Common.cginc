@@ -5,7 +5,7 @@
 #define PI 3.1415926
 
 int _AO_MultiBounce;
-half _AO_DirSampler, _AO_SliceSampler, _AO_Intensity, _AO_Radius, _AO_Power, _AO_Sharpeness, _AO_TemporalScale, _AO_TemporalResponse, _AO_HalfProjScale, _AO_TemporalOffsets, _AO_TemporalDirections;
+half _AO_DirSampler, _AO_SliceSampler, _AO_Intensity, _AO_Radius, _AO_Thickness, _AO_Power, _AO_Sharpeness, _AO_TemporalScale, _AO_TemporalResponse, _AO_HalfProjScale, _AO_TemporalOffsets, _AO_TemporalDirections;
 half2 _AO_FadeParams;
 half4	_AO_UVToView, _AO_RT_TexelSize;
 half4x4	_WorldToCameraMatrix, _CameraToWorldMatrix, _ProjectionMatrix, _LastFrameViewProjectionMatrix, _View_ProjectionMatrix, _Inverse_View_ProjectionMatrix;
@@ -172,10 +172,10 @@ half4 GTAO(half2 uv, int NumCircle, int NumSlice, inout half Depth)
 	half3 viewNormal = GetNormal(uv);
 	half3 viewDir = normalize(0 - vPos);
 
-	half radius = _AO_Radius;
+	half _set_radius = _AO_Radius;
 
     // 这个radius表示　远平面单位空间上的具体数值？　如果平面拉近，那么要除以相应的缩放比例？ vPos.b [0, Far]
-	half stepRadius = max(min((radius * _AO_HalfProjScale) / vPos.b, 512), (half)NumSlice); //VPos.b是当前坐标点的深度值Z,主要是radius代表的是view空间的radius范围
+    half stepRadius = max(min((_set_radius * _AO_HalfProjScale) / vPos.b, 512), (half) NumSlice); //VPos.b是当前坐标点的深度值Z,主要是radius代表的是view空间的radius范围
 	stepRadius /= ((half)NumSlice + 1); //这个操作感觉是转换到ndc空间后，最多划NumSlice块的意思，这样算出每一步的步长？
 
 	half noiseOffset = GTAO_Offsets(uv);
@@ -213,10 +213,10 @@ half4 GTAO(half2 uv, int NumCircle, int NumSlice, inout half Depth)
 			dsdt = half2(dot(ds, ds), dot(dt, dt));
 			dsdtLength = rsqrt(dsdt);
 
-			falloff = saturate(dsdt.xy / (radius*radius));
+            falloff = saturate(dsdt.xy / (_set_radius * _set_radius));
 
 			H = half2(dot(ds, viewDir), dot(dt, viewDir)) * dsdtLength;
-            h.xy = (H.xy > h.xy) ? lerp(H, h, falloff) : h.xy;
+            h.xy = (H.xy > h.xy) ? lerp(H, h, falloff) : lerp(H.xy, h.xy, _AO_Thickness);
             
             //h.xy = (H.xy > h.xy) ? H.xy : h.xy;
         }

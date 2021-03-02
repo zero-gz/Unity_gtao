@@ -37,6 +37,10 @@ public class GroundTruthAmbientOcclusion : MonoBehaviour {
     [Range(1, 5)]
     float Radius = 2.5f;
 
+    [SerializeField]
+    [Range(0, 1)]
+    float Thickness = 1.0f;
+
 
     [SerializeField]
     [Range(0, 1)]
@@ -129,6 +133,7 @@ public class GroundTruthAmbientOcclusion : MonoBehaviour {
     private static int _AO_Power_ID = Shader.PropertyToID("_AO_Power");
     private static int _AO_Intensity_ID = Shader.PropertyToID("_AO_Intensity");
     private static int _AO_Radius_ID = Shader.PropertyToID("_AO_Radius");
+    private static int _AO_Thickness_ID = Shader.PropertyToID("_AO_Thickness");
     private static int _AO_Sharpeness_ID = Shader.PropertyToID("_AO_Sharpeness");
     private static int _AO_TemporalScale_ID = Shader.PropertyToID("_AO_TemporalScale");
     private static int _AO_TemporalResponse_ID = Shader.PropertyToID("_AO_TemporalResponse");
@@ -231,6 +236,7 @@ public class GroundTruthAmbientOcclusion : MonoBehaviour {
         GTAOMaterial.SetFloat(_AO_SliceSampler_ID, SliceSampler);
         GTAOMaterial.SetFloat(_AO_Intensity_ID, Intensity);
         GTAOMaterial.SetFloat(_AO_Radius_ID, Radius);
+        GTAOMaterial.SetFloat(_AO_Thickness_ID, Thickness);
         GTAOMaterial.SetFloat(_AO_Power_ID, Power);
         GTAOMaterial.SetFloat(_AO_Sharpeness_ID, Sharpeness);
         GTAOMaterial.SetFloat(_AO_TemporalScale_ID, TemporalScale);
