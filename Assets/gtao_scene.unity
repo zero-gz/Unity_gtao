@@ -382,9 +382,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirSampler: 4
   SliceSampler: 4
-  Radius: 1.5
-  Intensity: 0.682
-  Power: 5.9
+  Radius: 1.87
+  Thickness: 1
+  Intensity: 0.71
+  Power: 6.8
   MultiBounce: 1
   Sharpeness: 0.25
   TemporalScale: 1
